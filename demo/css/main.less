@@ -1,0 +1,291 @@
+@green1:#72b412;
+@green2:#004b1c;
+@red:#9f363a;
+ul{
+    list-style: none;
+}
+a,
+a:link,
+a:visited {
+    color: #333;
+    text-decoration:none;
+}
+a:hover {
+    text-decoration:underline;
+}
+.green1{
+    color: @green1;
+}
+.green2{
+    color: @green2;
+}
+.top_nav{
+    overflow: hidden;
+    color: @green2;
+    padding:5px 0;
+    .float-right{
+        @media screen and (max-width: 700px) {
+            display: none;
+        }
+    }
+    .float-left{
+        .title{
+            box-shadow: 0 0 3px rgba(0,0,0,.5);
+            border-radius:4px;
+            font-weight: bold;
+            padding:0 2px;
+            margin-right: 4px;
+        }
+        @media screen and (max-width: 700px) {
+            font-size: 12px;
+        }
+    }
+}
+header{
+   background:@green1;
+   padding: 15px 0 0;
+   .logo{
+        margin: 5px 0 15px;
+        @media screen and (max-width: 800px) {
+            margin: 0px 0 5px;
+        }
+        img{
+            vertical-align: middle;
+            @media screen and (max-width: 800px) {
+                height: 40px;
+                display: block;
+            }
+        }
+        a+a{
+            width: 30px;
+            height: 30px;
+            text-align:center;
+            line-height: 30px;
+            display: inline-block;
+            margin-left: 10px;
+            vertical-align: middle;
+            @media screen and (max-width: 800px) {
+                margin-top: 5px;
+            }
+        }
+        a.facebook{
+            background: #fff;
+            text-align:center;
+            border-radius: 40px;
+            svg{
+                color: @green1;
+            }
+        }
+        a.line{
+            svg{
+                color: #fff;
+                font-size: 30px;
+            }
+        }
+
+   }
+   .search_block{
+        background: #fff;
+        width: 100%;
+        border-radius:4px;
+        overflow: hidden;
+        margin-bottom: 10px;
+        input{
+            border:none;
+            width:75%;
+            padding:5px 10px;
+            margin: 0 10px;
+            @media screen and (max-width: 800px) {
+                width: 20vw;
+            }
+        }
+        button{
+            background: #fff;
+            color:@green1;
+            border: none;
+            float: right;
+
+            &:hover
+            {
+                background: #fff;
+                color:@green2;
+                border: none;
+            }
+        }
+   }
+   .login{
+        margin-bottom:6px;
+        a{
+            color:#fff;
+        }
+   }
+
+}
+nav.menu {
+    .container{
+        padding:0;
+        @media screen and (min-width: 770px) {
+            padding: 0 15px;
+        }
+    }
+    background:@green2;
+    box-shadow: 0 0 2px rgba(0,0,0,.5);
+    ul{
+        display: flex;
+    }
+    a{
+        color:#fff;
+        height: 42px;
+        text-align: center;
+        padding: 0 30px;
+        line-height: 42px;
+        display: block;
+        font-weight: bold;
+        @media screen and (max-width: 770px) {
+            font-size: 13px;
+            padding: 0 8px;
+        }
+        @media screen and (max-width: 370px) {
+            font-size: 12px;
+            padding: 0 5px;
+        }
+
+        &:hover,
+        &.selected{
+            background:#fff;
+            text-decoration: none;
+            color:@green2;
+        }
+    }
+}
+
+.breadcrumb{
+    background: #fff;
+    padding:5px 0;
+    margin: 0;
+}
+/*輪播*/
+.banner_block{
+    overflow: hidden;
+    img{
+        width: 100%;
+    }
+}
+/*首頁最新消息*/
+.news{
+    margin: 30px 0;
+    h3{
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+    ul{
+        margin-bottom:40px;
+        font-weight: bold;
+        li{
+            overflow : hidden;
+            text-overflow : ellipsis;
+            white-space:nowrap;
+            margin-bottom: 8px;
+            background: url(../images/li1.gif) left center no-repeat;
+            padding-left: 16px;
+            @media screen and (max-width: 768px){
+                &:nth-child(3),
+                &:nth-child(4),
+                &:nth-child(5){
+                    display: none;
+                }
+            }
+        }
+    }
+}
+.green_big_title{
+    background: @green1;
+    overflow: hidden;
+    color:#fff;
+    box-shadow: 0 0 2px rgba(0,0,0,.5);
+    padding: 15px;
+    font-weight: bold;
+}
+/*首頁列表*/
+.list_dash{
+    margin-bottom:30px;
+    a{
+        &:last-child{
+            border-bottom:none;
+        }
+        display:block;
+        border-bottom: 1px dashed #ccc;
+        padding:16px 15px 0;
+        height: 72px;
+        display: flex;
+        justify-content: space-between;
+        &:hover{
+            text-decoration:none;
+            background: #f3ffe3;
+        }
+        .name{
+            width: 60%;
+
+        }
+        .num{
+            color:#888;
+            margin-top: 15px;
+            span:first-child{
+                color:#000;
+            }
+        }
+        @media screen and (max-width: 992px){
+            .num,
+            .time{
+                display: none;
+            }
+            .name{
+                width: 100%;
+            }
+        }
+        h5{
+            color: #000;
+            font-weight: bold;
+        }
+        svg{
+            color:@green1;
+            margin-right:10px;
+            width: 20px !important;
+        }
+        p{
+            color:#888;
+            margin: 0;
+            margin-left: 30px;
+            overflow : hidden;
+            text-overflow : ellipsis;
+            white-space:nowrap;
+        }
+    }
+    a.red{
+        svg,
+        h5{
+            color:@red;
+        }
+    }
+
+}
+/*頁尾*/
+footer{
+    margin: 30px 0;
+    overflow: hidden;
+    text-align: right;
+    a{
+        color: #888 !important;
+        display: inline-block;
+        padding:0 5px;
+        line-height: 1em;
+
+        &:after{
+            content:"";
+            border-right: 1px solid #888;
+            height: 10px;
+            margin-left: 10px;
+        }
+    }
+}

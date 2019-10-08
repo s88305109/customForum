@@ -1,0 +1,29 @@
+@charset "utf-8";
+html, body, div, span, applet, object, iframe, table, caption, tbody, tfoot, thead, tr, th, td, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, dl, dt, dd, ol, ul, li, fieldset, form, label, legend { margin:0; padding:0; border:0; font-weight:inherit; font-style:inherit; font-size:100%; font-family:inherit; vertical-align:baseline; }
+:focus { outline: 0; }
+a { outline: none !important; hlbr:expression(this.onFocus=this.blur()); }
+input[type="text"]:focus,select:focus,textarea:focus{background-color:#fff !important;}
+body { font-family: "微軟正黑體","黑體";font-size:100%/*16px*/;color: #000;line-height:1.5em /*24px /16px*/; padding:0; margin:0;}
+blockquote:before, blockquote:after, q:before, q:after { content: ""; }
+blockquote, q { quotes: "" ""; }
+a img { border:none;}
+/*Element========================================================*/
+h1 img, h2 img, h3 img, h4 img, h5 img, h6 img { margin:0; }
+strong { font-weight:bold; }
+p { margin:0 0 0.5em;}
+ul { list-style: none; margin:0 0 0.5em 0; }
+ol { margin: 0 0 0 1.5em/*24px /16px*/; list-style-type: decimal; }
+dl { margin:0 0 0.5em 0/*8px /16px*/; }
+dl dt { font-weight:bold; }
+dd { margin-left:0.5em/*8px /16px*/; }
+table {width:100%;}
+th, td, caption { padding:0.3em/*4.8px /16px*/; line-height:1.5em/*24px /16px*/; vertical-align:top;font-weight: normal; text-align: left;  }
+caption {background:#D7DAE0; border:1px #ddd solid;border-width: 1px 1px 0;color: #614747;padding: 2px 5px;}
+th { font-weight:bold;border:1px solid #ddd;}
+td { border:1px solid #ddd;  }
+select{border:1px solid  #000;padding: 4px 8px;vertical-align:middle;height:30px;line-height:1.5em;font-family: "微軟正黑體","黑體"; font-size: 1em;}
+input[type="submit"], input[type="button"], input[type="radio"], input[type="checkbox"], label, a,button{ cursor:pointer; }
+input[type="submit"], input[type="button"], input[type="reset"] { border:1px solid  #ccc;padding: 4px 8px;vertical-align:middle;height:30px;line-height:1.5em;font-family: "微軟正黑體","黑體"; font-size: 1em;}
+input[type="text"],input[type="password"]{border:1px solid  #ccc;padding: 0px 8px;vertical-align:middle; height:40px; line-height:1.5em;font-family: "微軟正黑體","黑體"; font-size: 1em; background: #fff; }
+select{border:1px solid  #ccc;padding: 0px 8px;vertical-align:middle;height:40px;line-height:1.5em;font-family: "微軟正黑體","黑體"; font-size: 1em;}
+

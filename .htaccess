@@ -1,0 +1,48 @@
+<Files ~ "^\.(htaccess|htpasswd)$">
+	deny from all
+</Files>
+
+Options -Indexes -MultiViews
+
+##########################################################################################################
+RewriteEngine On
+RewriteRule .*\.git/.* - [F]
+# RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
+# RewriteRule \.(gif|jpe?g|png|bmp) /images/none.png [NC,L]
+
+RewriteRule ^admin$ admin.php
+RewriteRule ^admin/([a-zA-Z0-9]+)$ admin.php?action=$1
+RewriteRule ^admin/categoryManage/([0-9]+)$ admin.php?action=categoryManage&categoryID=$1
+RewriteRule ^admin/boardManage/([0-9]+)$ admin.php?action=boardManage&boardID=$1
+RewriteRule ^admin/bannerEdit/([0-9]+)$ admin.php?action=bannerEdit&bannerID=$1
+RewriteRule ^admin/announcementEdit/([0-9]+)$ admin.php?action=announcementEdit&announcementID=$1
+
+RewriteRule ^login$ login.php
+RewriteRule ^login/([a-zA-Z0-9]+)$ login.php?action=$1
+RewriteRule ^logout$ login.php?action=logout
+
+RewriteRule ^manage/([a-zA-Z0-9]+)$ manage.php?action=$1
+
+RewriteRule ^board$ board.php
+RewriteRule ^board/c([0-9]+)$ board.php?action=index&categoryID=$1
+RewriteRule ^board/c([0-9]+)/([0-9]+)$ board.php?action=index&categoryID=$1&page=$2
+RewriteRule ^board/c([0-9]+)/b([0-9]+)$ board.php?action=index&categoryID=$1&boardID=$2
+RewriteRule ^board/c([0-9]+)/b([0-9]+)/([0-9]+)$ board.php?action=index&categoryID=$1&boardID=$2&page=$3
+RewriteRule ^board/post/c([0-9]+)$ board.php?action=post&categoryID=$1
+RewriteRule ^board/post/c([0-9]+)/b([0-9]+)$ board.php?action=post&categoryID=$1&boardID=$2
+RewriteRule ^board/([a-zA-Z0-9]+)$ board.php?action=$1
+RewriteRule ^board/topicEdit/([0-9]+)$ board.php?action=topicEdit&topicID=$1
+
+RewriteRule ^post/([a-zA-Z0-9]+)$ post.php?action=$1
+
+RewriteRule ^topic/([0-9]+)$ topic.php?action=topic&topicID=$1
+RewriteRule ^topic/([0-9]+)/([0-9]+)$ topic.php?action=topic&topicID=$1&page=$2
+RewriteRule ^topic/topicReview$ topic.php?action=topicReview
+RewriteRule ^topic/topicCollection$ topic.php?action=topicCollection
+
+RewriteRule ^member/([0-9]+)$ member.php?action=index&memberID=$1
+RewriteRule ^member/([a-zA-Z0-9]+)$ member.php?action=$1
+RewriteRule ^member/verification/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)$ member.php?action=verification&uid=$1&code=$2
+
+RewriteRule ^search/(.*)/([0-9]+)$ search.php?action=search&searchstr=$1&page=$2
+RewriteRule ^search/(.*)$ search.php?action=search&searchstr=$1
