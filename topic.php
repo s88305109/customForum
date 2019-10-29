@@ -138,4 +138,40 @@ class c_topic
 		echo 'OK';
 	}
 
+	function topicDelete() {
+		$topicID = (isset($_REQUEST['topicID'])) ? $_REQUEST['topicID'] : 0;
+
+		if (! isset($_SESSION['nsf_member']['memberID']) || empty($_SESSION['nsf_member']['memberID'])) {
+    		exit('尚未登入會員');
+    	}
+
+    	$topicData = Topic::getTopicData($topicID);
+
+		if (empty($topicData) || $topicData['memberID'] != $_SESSION['nsf_member']['memberID']) {
+			exit('查無文章資料');
+		}
+
+    	Topic::topicDelete($topicID);
+
+		echo 'OK';
+	}
+
+	function replyDelete() {
+		$topicID = (isset($_REQUEST['topicID'])) ? $_REQUEST['topicID'] : 0;
+
+		if (! isset($_SESSION['nsf_member']['memberID']) || empty($_SESSION['nsf_member']['memberID'])) {
+    		exit('尚未登入會員');
+    	}
+
+    	$replyData = Topic::getReplyData($topicID);
+
+		if (empty($replyData) || $replyData['memberID'] != $_SESSION['nsf_member']['memberID']) {
+			exit('查無文章資料');
+		}
+
+    	Topic::topicDelete($topicID);
+
+		echo 'OK';
+	}
+
 }

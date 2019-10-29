@@ -13,6 +13,7 @@ class c_post
 		$title   = (isset($_REQUEST['title'])) ? $_REQUEST['title'] : '';
 		$content = (isset($_REQUEST['content'])) ? $_REQUEST['content'] : '';
 		$topicID = (isset($_REQUEST['topicID'])) ? $_REQUEST['topicID'] : 0;
+		$reply   = (isset($_REQUEST['reply'])) ? $_REQUEST['reply'] : 0;
 
 		if (! isset($_SESSION['nsf_member']['memberID']) || empty($_SESSION['nsf_member']['memberID'])) {
     		exit('尚未登入會員');
@@ -20,10 +21,23 @@ class c_post
 
 		$memberInfo = Member::getMemberInfo($_SESSION['nsf_member']['memberID']);
 
-		if ($_SESSION['nsf_member']['admin'] == 0 && ! Post::postIntervalCheck($_SESSION['nsf_member']['memberID']))
+		if (empty($topicID) && $_SESSION['nsf_member']['admin'] == 0 && ! Post::postIntervalCheck($_SESSION['nsf_member']['memberID']))
 			exit('發文間隔時間不可小於60秒');
 
-		if (empty($boardID))
+		if (! empty($topicID)) {
+			if ($reply == 1)
+				$topicData = Topic::getReplyData($topicID);
+			else
+				$topicData = Topic::getTopicData($topicID);
+			
+			$memberIdentity = Manage::getMemberIdentity($topicData['boardID']);
+
+			if (empty($topicData) || ! isset($_SESSION['nsf_member']['memberID']) || ($_SESSION['nsf_member']['memberID'] != $topicData['memberID'] && $_SESSION['nsf_member']['admin'] == 0 && $memberIdentity <= 0)) {
+				exit('您無權限編輯此文章');
+			}
+		}
+
+		if ((empty($topicID) || $topicData['reply'] == 0) && empty($boardID))
 			exit('請選擇文章分類');
 		else if (trim($title) == '')
 			exit('請輸入主題');
@@ -31,14 +45,6 @@ class c_post
 			exit('請輸入文章內容');
 		else if ($memberInfo['admin'] != 1 && $memberInfo['level'] <= 0)
 			exit('您的會員等級尚無發表文章的權限');
-
-		if (! empty($topicID)) {
-			$topicData = Topic::getTopicData($topicID);
-
-			if (empty($topicData) || ! isset($_SESSION['nsf_member']['memberID']) || ($_SESSION['nsf_member']['memberID'] != $topicData['memberID'] && $_SESSION['nsf_member']['admin'] == 0)) {
-				exit('您無權限編輯此文章');
-			}
-		}
 
 		Post::topicPost($boardID, $title, $content, $topicID);
 

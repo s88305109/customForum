@@ -82,7 +82,7 @@ function articleSearch() {
 
                 <div class="float-right login">
                     <?php if (! isset($_SESSION['nsf_member']) || ! isset($_SESSION['nsf_member']['memberID']) || empty($_SESSION['nsf_member']['memberID'])) : ?>
-                        <span><i class="far fa-user"></i> <a href="https://www.sinya.com.tw/">註冊</a> / <a href="<?=BASEPATH?>/login">登入</a></span>
+                        <span><i class="far fa-user"></i> <a href="https://www.sinya.com.tw/member/join/">註冊</a> / <a href="<?=BASEPATH?>/login">登入</a></span>
                     <?php else : ?>
                         <a href="<?=BASEPATH?>/member/<?=$_SESSION['nsf_member']['memberID']?>"><?=$_SESSION['nsf_member']['nickName']?> 你好</a> &nbsp;&nbsp;
                         <span>(<a href="<?=BASEPATH?>/logout">登出會員</a>)</span>

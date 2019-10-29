@@ -60,17 +60,7 @@ function deleteAnnouncement(id) {
 <div class="container admin">
 	<div class="row">
         <div class="col-12 partition">
-            <ul class="nav">
-                <li>
-                    <a href="<?=BASEPATH?>/admin/forumManage">版面管理</a>
-                </li>
-                <li>
-                    <a href="<?=BASEPATH?>/admin/bannerManage">橫幅廣告管理</a>
-                </li>
-                <li  class="active">
-                    <a href="<?=BASEPATH?>/admin/announcementManage">公告管理</a>
-                </li>
-            </ul>
+            <?php include('nav.php'); ?>
         </div>
 
         <div class="col-12">

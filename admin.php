@@ -257,4 +257,43 @@ class c_admin
 		echo 'OK';
 	}
 
+	function searchManage() {
+		$searches = Admin::getHotSearches();
+
+		include('views/common/head.php');
+		include('views/admin/searchManage.php');
+		include('views/common/foot.php');
+	}
+
+	function searchEdit() {
+		$searchID = (isset($_REQUEST['searchID'])) ? $_REQUEST['searchID'] : 0;
+
+		if (! empty($searchID))
+			$search = Admin::getSearch($searchID);
+
+		include('views/common/head.php');
+		include('views/admin/searchEdit.php');
+		include('views/common/foot.php');
+	}
+
+	function searchSave() {
+		$data['searchstr'] = (isset($_REQUEST['searchstr'])) ? strip_tags ($_REQUEST['searchstr']) : '';
+		$data['count']     = (isset($_REQUEST['count'])) ? strip_tags ($_REQUEST['count']) : '';
+
+		if (trim($data['searchstr']) == '')
+			exit('請輸入熱搜內容');
+
+		Admin::updateSearch($data);
+
+		echo 'OK';
+	}
+
+	function deleteSearch() {
+		$searchID = (isset($_REQUEST['searchID'])) ? $_REQUEST['searchID'] : NULL;
+
+		Admin::deleteSearch($searchID);
+
+		echo 'OK';
+	}
+
 }

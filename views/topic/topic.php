@@ -118,6 +118,34 @@ function topicEdit() {
     window.location.href = '<?=BASEPATH?>/board/topicEdit/<?=$topicID?>';
 }
 
+function replyEdit(id) {
+    window.location.href = '<?=BASEPATH?>/board/replyEdit/' + id;
+}
+
+function topicDelete(id) {
+    if (confirm('請問確定要刪除文章嗎？')) {
+        $.post('<?=BASEPATH?>/topic/topicDelete', { topicID : id }, function(result) {
+            if (result != 'OK') {
+                alert(result);
+            } else {
+                window.location.href = '<?=BASEPATH?>/board/c<?=$categoryID?>/b<?=$boardID?>';
+            }
+        });
+    }
+}
+
+function replyDelete(id) {
+    if (confirm('請問確定要刪除回覆嗎？')) {
+        $.post('<?=BASEPATH?>/topic/replyDelete', { topicID : id }, function(result) {
+            if (result != 'OK') {
+                alert(result);
+            } else {
+                window.location.href = '<?=BASEPATH?>/topic/<?=$topicData['topicID']?>';
+            }
+        });
+    }
+}
+
 function draftHandle() {
     if (changed == 1) {
         saveDraft();
@@ -460,8 +488,12 @@ function saveDraft() {
 
                     <p class="point">積分 &nbsp; <?=$topicData['memberPoints']?></p>
 
-                    <?php if (isset($_SESSION['nsf_member']['memberID']) && ($_SESSION['nsf_member']['memberID'] == $topicData['memberID'] || $_SESSION['nsf_member']['admin'] == 1)) : ?>
-                    <p class="send"><button type="button" class="btn" onclick="topicEdit();"><i class="fas fa-edit"></i> &nbsp; 編輯</button></p>
+                    <?php if (isset($_SESSION['nsf_member']['memberID']) && ($_SESSION['nsf_member']['memberID'] == $topicData['memberID'] || $_SESSION['nsf_member']['admin'] == 1 || $memberIdentity > 1)) : ?>
+                    <p class="send"><button type="button" class="btn" onclick="topicEdit();"><i class="fas fa-edit" style="width:16px;"></i> &nbsp;  編輯</button></p>
+                    <?php endif; ?>
+
+                    <?php if (isset($_SESSION['nsf_member']['memberID']) && ($_SESSION['nsf_member']['memberID'] == $topicData['memberID'])) : ?>
+                    <p class="send"><button type="button" class="btn" onclick="topicDelete('<?=$topicData['topicID']?>');"><i class="fas fa-trash" style="width:16px;"></i> &nbsp;  刪除</button></p>
                     <?php endif; ?>
 
                     <!-- <p class="send"><button type="button" class="btn"><i class="far fa-envelope-open"></i> &nbsp; 發訊息</button></p> -->
@@ -489,26 +521,22 @@ function saveDraft() {
                             echo $parser->parse($topicData['content'])->get_html();
                             ?>
                         </div>
-
-                        <?php if (! is_null($topicData['lastEditTime']) && ! empty($topicData['lastEditTime'])) : ?>
-                        <div class="col-md-12 edit text-right">
-                        最後編輯於 <?=date('Y-m-d H:i', strtotime($topicData['lastEditTime']))?>
-                        </div>
-                        <?php endif; ?>
                     </div>
                 </div>
             </div>
 
             <div class="row function">
                 <div class="col-md-2"></div>
-                <div class="col-md-8 interactive">
+                <div class="col-md-6 interactive">
                     <a onclick="goReply();"><i class="far fa-comment-dots"></i> 回覆</a> &nbsp; 
                     <a class="awesome <?=(! is_null($review) && $review == 1) ? 'text-success font-weight-bold' : ''?>" onclick="topicReview(1);"><i class="far fa-thumbs-up"></i> 支持</a> &nbsp; 
                     <a class="trample <?=(! is_null($review) && $review == 0) ? 'text-danger font-weight-bold' : ''?>" onclick="topicReview(0);"><i class="far fa-thumbs-down"></i> 反對</a> &nbsp; 
                     <a class="collection <?=($collection == 1) ? 'text-warning font-weight-bold' : ''?>" onclick="topicCollection();"><i class="fas fa-star"></i> 收藏</a>
                 </div>
-                <div class="col-md-2 text-right">
-                    <!-- <i class="fas fa-exclamation-triangle"></i> 舉報 -->
+                <div class="col-md-4 text-right edit">
+                    <?php if (! is_null($topicData['lastEditTime']) && ! empty($topicData['lastEditTime'])) : ?>
+                    <?=$topicData['lastUpdateMemberNickName']?> 最後編輯於 <?=date('Y-m-d H:i', strtotime($topicData['lastEditTime']))?>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -535,7 +563,7 @@ function saveDraft() {
                 $showDate = date('Y-n-j', strtotime($row['postTime']));
             }
         ?>
-        <div class="reply">
+        <div class="reply" id="reply<?=$row['topicID']?>">
             <div class="row">
                 <div class="col-md-2 member d-none d-md-block">                    
                     <h4><a href="<?=BASEPATH?>/member/<?=$row['memberID']?>" target="_blank"><?=$row['nickName']?></a></h4>
@@ -570,7 +598,16 @@ function saveDraft() {
                     </div>
 
                     <p class="point">積分 &nbsp; <?=$row['memberPoints']?></p>
-                    <p class="send"><button type="button" class="btn"><i class="far fa-envelope-open"></i> &nbsp; 發訊息</button></p>
+
+                    <?php if (isset($_SESSION['nsf_member']['memberID']) && ($_SESSION['nsf_member']['memberID'] == $row['memberID'] || $_SESSION['nsf_member']['admin'] == 1 || $memberIdentity > 1)) : ?>
+                    <p class="send"><button type="button" class="btn" onclick="replyEdit('<?=$row['topicID']?>');"><i class="fas fa-edit" style="width:16px;"></i> &nbsp; 編輯</button></p>
+                    <?php endif; ?>
+
+                    <?php if (isset($_SESSION['nsf_member']['memberID']) && ($_SESSION['nsf_member']['memberID'] == $row['memberID'])) : ?>
+                    <p class="send"><button type="button" class="btn" onclick="replyDelete('<?=$row['topicID']?>');"><i class="fas fa-trash" style="width:16px;"></i> &nbsp;  刪除</button></p>
+                    <?php endif; ?>
+
+                    <!-- <p class="send"><button type="button" class="btn"><i class="far fa-envelope-open"></i> &nbsp; 發訊息</button></p> -->
                 </div>
 
                 <div class="col-md-10 article">
@@ -602,14 +639,16 @@ function saveDraft() {
 
             <div class="row function">
                 <div class="col-md-2"></div>
-                <div class="col-md-8 interactive">
+                <div class="col-md-6 interactive">
                     <i class="far fa-comment-dots"></i> 回覆 &nbsp; 
                     <i class="far fa-thumbs-up"></i> 支持 &nbsp; 
                     <i class="far fa-thumbs-down"></i> 反對 &nbsp; 
                     <i class="fas fa-star"></i> 收藏
                 </div>
-                <div class="col-md-2 text-right">
-                    <!-- <i class="fas fa-exclamation-triangle"></i> 舉報 -->
+                <div class="col-md-4 text-right edit">
+                    <?php if (! is_null($row['lastEditTime']) && ! empty($row['lastEditTime'])) : ?>
+                    <?=$row['lastUpdateMemberNickName']?> 最後編輯於 <?=date('Y-m-d H:i', strtotime($row['lastEditTime']))?>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

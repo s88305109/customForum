@@ -238,7 +238,7 @@ class ForumLayout {
     {
         global $db;
 
-        $sql = "SELECT `searchstr` FROM `nsf_search` WHERE `lastSearchTime` >= :lastSearchTime LIMIT 10";
+        $sql = "SELECT `searchstr` FROM `nsf_search` WHERE `lastSearchTime` >= :lastSearchTime ORDER BY `count` DESC LIMIT 20";
 
         $query = $db->prepare($sql);
         $query->execute(array('lastSearchTime' => date('Y-m-d 00:00:00', strtotime('-30 days'))));

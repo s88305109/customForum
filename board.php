@@ -74,8 +74,9 @@ class c_board
 		$topicID = (isset($_REQUEST['topicID'])) ? $_REQUEST['topicID'] : 0;
 
 		$topicData = Topic::getTopicData($topicID);
+		$memberIdentity = Manage::getMemberIdentity($topicData['boardID']);
 
-		if (empty($topicData) || ! isset($_SESSION['nsf_member']['memberID']) || $_SESSION['nsf_member']['memberID'] != $topicData['memberID']) {
+		if (empty($topicData) || ! isset($_SESSION['nsf_member']['memberID']) || ($_SESSION['nsf_member']['memberID'] != $topicData['memberID'] && $_SESSION['nsf_member']['admin'] == 0 && $memberIdentity <= 0)) {
 			header('Location: /404');
 			exit;
 		}
@@ -94,6 +95,33 @@ class c_board
 			header('Location: /404');
 			exit;
 		}
+
+		$memberInfo = Member::getMemberInfo($_SESSION['nsf_member']['memberID']);
+
+		$title = $topicData['title'];
+		$content = $topicData['content'];
+
+		include('views/common/head.php');
+		include('views/board/post.php');
+		include('views/common/foot.php');
+	}
+
+	function replyEdit() {
+		$topicID = (isset($_REQUEST['topicID'])) ? $_REQUEST['topicID'] : 0;
+
+		$topicData = Topic::getReplyData($topicID);
+
+		if (empty($topicData) || ! isset($_SESSION['nsf_member']['memberID']) || ($_SESSION['nsf_member']['memberID'] != $topicData['memberID'] && $_SESSION['nsf_member']['admin'] == 0 && $memberIdentity <= 0)) {
+			header('Location: /404');
+			exit;
+		}
+
+		$categoryData   = Board::getCategoryData($topicData['categoryID']);
+		$categoryBoards = Board::getCategoryBoards($topicData['categoryID']);
+		$boardData      = Board::getBoardData($topicData['boardID']);
+
+		$categoryID = $topicData['categoryID'];
+		$boardID = $topicData['boardID'];
 
 		$memberInfo = Member::getMemberInfo($_SESSION['nsf_member']['memberID']);
 

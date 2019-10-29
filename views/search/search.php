@@ -35,6 +35,7 @@ function goPage() {
 </div>
 
 <div class="container board">
+    <?php if ($topics['records'] > 0) : ?>
     <div class="row board_nav d-none d-md-flex">
         <div class="col-lg-3"></div>
 
@@ -122,92 +123,98 @@ function goPage() {
             </nav>
         </div>
     </div>
+    <?php endif; ?>
 
     <div class="list">
-        <div class="row caption d-none d-md-flex">
-            <div class="col-lg-6 title">
-                主題
-            </div>
-
-            <div class="col-lg-2">
-                作者
-            </div>
-
-            <div class="col-lg-2">
-                回復 / 查看
-            </div>
-
-            <div class="col-lg-2">
-                最後發表
-            </div>
-        </div>
-
         <?php
-        foreach((array)$topics['list'] as $row) : 
-            $showDateClass = '';
-
-            if (date('Y-m-d') == date('Y-m-d', strtotime($row['postTime']))) {
-                if (time() - strtotime($row['postTime']) <= 3600) {
-                    $showDate = floor((time() - strtotime($row['postTime'])) / 60).'分鐘前';
-                } else if (time() - strtotime($row['postTime']) <= 43200) {
-                    $showDate = floor((time() - strtotime($row['postTime'])) / 3600).'小時前';
-                } else {
-                    $showDate = '今天 '.date('H:i', strtotime($row['postTime']));
-                }
-
-                $showDateClass = 'recent';
-            } else if (date('Y-m-d', strtotime('-1 days')) == date('Y-m-d', strtotime($row['postTime']))) {
-                $showDate = '昨天 '.date('H:i', strtotime($row['postTime']));
-            } else {
-                $showDate = date('Y-n-j', strtotime($row['postTime']));
-            }
-
-            if (date('Y-m-d') == date('Y-m-d', strtotime($row['lastUpdateTime']))) {
-                if (time() - strtotime($row['lastUpdateTime']) <= 3600) {
-                    $showDate2 = floor((time() - strtotime($row['lastUpdateTime'])) / 60).'分鐘前';
-                } else if (time() - strtotime($row['lastUpdateTime']) <= 43200) {
-                    $showDate2 = floor((time() - strtotime($row['lastUpdateTime'])) / 3600).'小時前';
-                } else {
-                    $showDate2 = '今天 '.date('H:i', strtotime($row['lastUpdateTime']));
-                }
-            } else if (date('Y-m-d', strtotime('-1 days')) == date('Y-m-d', strtotime($row['lastUpdateTime']))) {
-                $showDate2 = '昨天 '.date('H:i', strtotime($row['lastUpdateTime']));
-            } else {
-                $showDate2 = date('Y-n-j H:i', strtotime($row['lastUpdateTime']));
-            }
+        if ($topics['records'] == 0) :
+            echo '<div class="text-center mt-5 mb-5"><p>找不到符合搜尋字詞「'.htmlentities($searchstr).'」的文章。</p></div>';
+        else :
         ?>
-        <div class="row item">
-            <div class="col-lg-6 col-sm-12 title">
-                <a href="<?=BASEPATH?>/topic/<?=$row['topicID']?>">
-                    <?=$row['title']?>
-                    <?php if ($row['firstPost'] == 1) : ?><span class="label">新人帖</span><?php endif; ?>
-                    <?php if (time() - strtotime($row['postTime']) <= 604800 && ! Topic::browseHistory($row['topicID'])) : ?><span class="new">New !</span><?php endif; ?>
-                </a>
+            <div class="row caption d-none d-md-flex">
+                <div class="col-lg-6 title">
+                    主題
+                </div>
+
+                <div class="col-lg-2">
+                    作者
+                </div>
+
+                <div class="col-lg-2">
+                    回復 / 查看
+                </div>
+
+                <div class="col-lg-2">
+                    最後發表
+                </div>
             </div>
 
-            <div class="col-lg-2 d-none d-md-block">
-                <a href="<?=BASEPATH?>/member/<?=$row['memberID']?>" target="_blank"><?=$row['nickName']?></a><br />
-                <span class="<?=$showDateClass?>"><?=$showDate?></span>
-            </div>
+            <?php
+            foreach((array)$topics['list'] as $row) : 
+                $showDateClass = '';
 
-            <div class="col-lg-2 d-none d-md-block">
-                <?=$row['replies']?><br />
-                <?=$row['views']?>
-            </div>
+                if (date('Y-m-d') == date('Y-m-d', strtotime($row['postTime']))) {
+                    if (time() - strtotime($row['postTime']) <= 3600) {
+                        $showDate = floor((time() - strtotime($row['postTime'])) / 60).'分鐘前';
+                    } else if (time() - strtotime($row['postTime']) <= 43200) {
+                        $showDate = floor((time() - strtotime($row['postTime'])) / 3600).'小時前';
+                    } else {
+                        $showDate = '今天 '.date('H:i', strtotime($row['postTime']));
+                    }
 
-            <div class="col-lg-2 d-none d-md-block">
-                <a href="<?=BASEPATH?>/member/<?=$row['lastUpdateMemberID']?>" target="_blank"><?=$row['lastUpdateNickName']?></a> <br />
-                <span class="old"><?=$showDate2?></span>
-            </div>
+                    $showDateClass = 'recent';
+                } else if (date('Y-m-d', strtotime('-1 days')) == date('Y-m-d', strtotime($row['postTime']))) {
+                    $showDate = '昨天 '.date('H:i', strtotime($row['postTime']));
+                } else {
+                    $showDate = date('Y-n-j', strtotime($row['postTime']));
+                }
 
-            <div class="col-sm-12 d-md-none smInfo">
-                <span class="thumb"><i class="far fa-thumbs-up"></i> <?=$row['views']?></span>
-                <span class="comment"><i class="far fa-comment-dots"></i> <?=$row['replies']?></span>
-                <span class="post"><a href="<?=BASEPATH?>/member/<?=$row['lastUpdateMemberID']?>"><?=$row['lastUpdateNickName']?></a> &nbsp; <?=$showDate2?></span>
-            </div>
-        </div>
-        <?php endforeach; ?>
+                if (date('Y-m-d') == date('Y-m-d', strtotime($row['lastUpdateTime']))) {
+                    if (time() - strtotime($row['lastUpdateTime']) <= 3600) {
+                        $showDate2 = floor((time() - strtotime($row['lastUpdateTime'])) / 60).'分鐘前';
+                    } else if (time() - strtotime($row['lastUpdateTime']) <= 43200) {
+                        $showDate2 = floor((time() - strtotime($row['lastUpdateTime'])) / 3600).'小時前';
+                    } else {
+                        $showDate2 = '今天 '.date('H:i', strtotime($row['lastUpdateTime']));
+                    }
+                } else if (date('Y-m-d', strtotime('-1 days')) == date('Y-m-d', strtotime($row['lastUpdateTime']))) {
+                    $showDate2 = '昨天 '.date('H:i', strtotime($row['lastUpdateTime']));
+                } else {
+                    $showDate2 = date('Y-n-j H:i', strtotime($row['lastUpdateTime']));
+                }
+            ?>
+            <div class="row item">
+                <div class="col-lg-6 col-sm-12 title">
+                    <a href="<?=BASEPATH?>/topic/<?=$row['topicID']?>">
+                        <?=$row['title']?>
+                        <?php if ($row['firstPost'] == 1) : ?><span class="label">新人帖</span><?php endif; ?>
+                        <?php if (time() - strtotime($row['postTime']) <= 604800 && ! Topic::browseHistory($row['topicID'])) : ?><span class="new">New !</span><?php endif; ?>
+                    </a>
+                </div>
 
+                <div class="col-lg-2 d-none d-md-block">
+                    <a href="<?=BASEPATH?>/member/<?=$row['memberID']?>" target="_blank"><?=$row['nickName']?></a><br />
+                    <span class="<?=$showDateClass?>"><?=$showDate?></span>
+                </div>
+
+                <div class="col-lg-2 d-none d-md-block">
+                    <?=$row['replies']?><br />
+                    <?=$row['views']?>
+                </div>
+
+                <div class="col-lg-2 d-none d-md-block">
+                    <a href="<?=BASEPATH?>/member/<?=$row['lastUpdateMemberID']?>" target="_blank"><?=$row['lastUpdateNickName']?></a> <br />
+                    <span class="old"><?=$showDate2?></span>
+                </div>
+
+                <div class="col-sm-12 d-md-none smInfo">
+                    <span class="thumb"><i class="far fa-thumbs-up"></i> <?=$row['views']?></span>
+                    <span class="comment"><i class="far fa-comment-dots"></i> <?=$row['replies']?></span>
+                    <span class="post"><a href="<?=BASEPATH?>/member/<?=$row['lastUpdateMemberID']?>"><?=$row['lastUpdateNickName']?></a> &nbsp; <?=$showDate2?></span>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
 
     <?php include(dirname(__FILE__).'/../common/footer.php'); ?>

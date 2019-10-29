@@ -501,4 +501,67 @@ class Admin {
         }
     }
 
+    static public function getHotSearches()
+    {
+        global $db;
+
+        $sql = "SELECT * FROM `nsf_search` WHERE `lastSearchTime` >= :lastSearchTime ORDER BY `count` DESC LIMIT 20";
+
+        $query = $db->prepare($sql);
+        $query->execute(array('lastSearchTime' => date('Y-m-d 00:00:00', strtotime('-30 days'))));
+
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    static public function getSearch($searchID)
+    {
+        global $db;
+
+        $sql = "SELECT * FROM `nsf_search` WHERE `searchID` = :searchID";
+
+        $query = $db->prepare($sql);
+        $query->execute(array('searchID' => $searchID));
+
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
+
+    static public function deleteSearch($searchID)
+    {
+        global $db;
+
+        $sql = "DELETE FROM `nsf_search` WHERE `searchID` = :searchID";
+
+        $query = $db->prepare($sql);
+        $query->execute(array('searchID' => $searchID));
+    }
+
+    static public function updateSearch($data)
+    {
+        global $db;
+
+        $sql = "SELECT * FROM `nsf_search` WHERE `searchstr` LIKE :searchstr";
+        $query = $db->prepare($sql);
+        $query->execute(array('searchstr' => $data['searchstr']));
+
+        if ($query->rowCount() == 0) {
+            $sql = "INSERT INTO `nsf_search` (`searchstr`, `count`, `lastSearchTime`) VALUES (:searchstr, :count, NOW())";
+
+            $query = $db->prepare($sql);
+            $query->execute(array(
+                'searchstr' => trim($data['searchstr']),
+                'count'     => $data['count']
+            ));
+
+            $id = $db->lastInsertId();
+        } else {
+            $sql = "UPDATE `nsf_search` SET `count` = :count, `lastSearchTime` = NOW() WHERE `searchstr` LIKE :searchstr";
+
+            $query = $db->prepare($sql);
+            $query->execute(array(
+                'searchstr' => trim($data['searchstr']),
+                'count'     => $data['count']
+            ));
+        }
+    }
+
 }

@@ -16,6 +16,7 @@ RewriteRule ^admin/categoryManage/([0-9]+)$ admin.php?action=categoryManage&cate
 RewriteRule ^admin/boardManage/([0-9]+)$ admin.php?action=boardManage&boardID=$1
 RewriteRule ^admin/bannerEdit/([0-9]+)$ admin.php?action=bannerEdit&bannerID=$1
 RewriteRule ^admin/announcementEdit/([0-9]+)$ admin.php?action=announcementEdit&announcementID=$1
+RewriteRule ^admin/searchEdit/([0-9]+)$ admin.php?action=searchEdit&searchID=$1
 
 RewriteRule ^login$ login.php
 RewriteRule ^login/([a-zA-Z0-9]+)$ login.php?action=$1
@@ -32,6 +33,7 @@ RewriteRule ^board/post/c([0-9]+)$ board.php?action=post&categoryID=$1
 RewriteRule ^board/post/c([0-9]+)/b([0-9]+)$ board.php?action=post&categoryID=$1&boardID=$2
 RewriteRule ^board/([a-zA-Z0-9]+)$ board.php?action=$1
 RewriteRule ^board/topicEdit/([0-9]+)$ board.php?action=topicEdit&topicID=$1
+RewriteRule ^board/replyEdit/([0-9]+)$ board.php?action=replyEdit&topicID=$1
 
 RewriteRule ^post/([a-zA-Z0-9]+)$ post.php?action=$1
 
@@ -39,6 +41,8 @@ RewriteRule ^topic/([0-9]+)$ topic.php?action=topic&topicID=$1
 RewriteRule ^topic/([0-9]+)/([0-9]+)$ topic.php?action=topic&topicID=$1&page=$2
 RewriteRule ^topic/topicReview$ topic.php?action=topicReview
 RewriteRule ^topic/topicCollection$ topic.php?action=topicCollection
+RewriteRule ^topic/topicDelete$ topic.php?action=topicDelete
+RewriteRule ^topic/replyDelete$ topic.php?action=replyDelete
 
 RewriteRule ^member/([0-9]+)$ member.php?action=index&memberID=$1
 RewriteRule ^member/([a-zA-Z0-9]+)$ member.php?action=$1

@@ -95,20 +95,22 @@ class Post {
             Member::memberPointChange($memberID, 'post');
         } else {
             $sql = "UPDATE `nsf_topic` SET 
-                `title` = :title, 
-                `content` = :content, 
-                `searchTitle` = :searchTitle, 
-                `searchContent` = :searchContent, 
-                `lastEditTime` = NOW() 
+                `title`              = :title, 
+                `content`            = :content, 
+                `searchTitle`        = :searchTitle, 
+                `searchContent`      = :searchContent, 
+                `lastEditTime`       = NOW(),
+                `lastUpdateMemberID` = :lastUpdateMemberID
                 WHERE `topicID` = :topicID";
 
             $query = $db->prepare($sql);
             $query->execute(array(
-                'title'         => $title,
-                'content'       => $content,
-                'searchTitle'   => $searchTitle,
-                'searchContent' => $searchContent,
-                'topicID'       => $topicID
+                'title'              => $title,
+                'content'            => $content,
+                'searchTitle'        => $searchTitle,
+                'searchContent'      => $searchContent,
+                'lastUpdateMemberID' => $memberID,
+                'topicID'            => $topicID
             ));
         }
 

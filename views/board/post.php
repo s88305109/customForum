@@ -46,7 +46,7 @@ function topicPost() {
     $('.topicPost').prop('disabled', true);
     $('.ajaxLoader').fadeIn();
 
-    $.post('<?=BASEPATH?>/post/topicPost', { title : $('#title').val(), content : $('#editor').sceditor('instance').val(), boardID : $('#boardID').val() <?php if (isset($topicData)) : ?>, topicID : '<?=$topicData['topicID']?>'<?php endif; ?> }, function(result) {
+    $.post('<?=BASEPATH?>/post/topicPost', { title : $('#title').val(), content : $('#editor').sceditor('instance').val(), boardID : $('#boardID').val() <?php if (isset($topicData)) : ?>, topicID : '<?=$topicData['topicID']?>', reply : '<?=$topicData['reply']?>'<?php endif; ?> }, function(result) {
         if (result != 'OK') {
             loading = 0;
             $('.topicPost').prop('disabled', false);
@@ -55,7 +55,12 @@ function topicPost() {
         } else {
             $('.topicPost').html('文章已成功儲存');
             $('.ajaxLoader').fadeOut();
+
+            <?php if (isset($topicData['reply']) && $topicData['reply'] == 1) : ?>
+            window.location.href = '<?=BASEPATH?>/topic/<?=$topicData['subjectID']?>';
+            <?php else : ?>
             window.location.href = '<?=BASEPATH?>/board/c<?=$categoryID?>/b' + $('#boardID').val();
+            <?php endif; ?>
         }
     });
 }
@@ -132,7 +137,7 @@ function saveDraft() {
         </div>
         <?php endif; ?>
 
-        <?php if (! isset($boardID) || empty($boardID) || empty($boardData)) : ?>
+        <?php if ($topicData['reply'] == 0 && (! isset($boardID) || empty($boardID) || empty($boardData))) : ?>
         <div class="mt-2 text-nowrap">
             文章分類：
             <select class="form-control category" id="boardID" name="boardID">
@@ -148,7 +153,7 @@ function saveDraft() {
         <div class="mt-2 text-nowrap">
             <div class="form-group">
                 <label for="title" class="col-form-label">　　主題：</label>
-                <input type="text" class="form-control" id="title" name="title" value="<?=(isset($title)) ? $title : ''?>" />
+                <input type="text" class="form-control" id="title" name="title" value="<?=(isset($title)) ? $title : ''?>" <?php if ($topicData['reply'] == 1) echo 'readonly="readonly"'; ?> />
             </div>
         </div>
 
@@ -160,7 +165,7 @@ function saveDraft() {
 
         <div class="row reply_line">
             <div class="col-lg-12">
-                <button type="button" class="btn topicPost" onclick="topicPost();">發表文章</button> 
+                <button type="button" class="btn topicPost" onclick="topicPost();"><?=isset($topicData['topicID']) && ! empty($topicData['topicID']) ? '編輯文章' : '發表文章' ?></button> 
                 <img class="ajaxLoader" src="<?=BASEPATH?>/images/ajax-loader.gif" />
             </div>
         </div>
