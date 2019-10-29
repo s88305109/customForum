@@ -137,7 +137,7 @@ function saveDraft() {
         </div>
         <?php endif; ?>
 
-        <?php if ($topicData['reply'] == 0 && (! isset($boardID) || empty($boardID) || empty($boardData))) : ?>
+        <?php if (isset($topicData) && $topicData['reply'] == 0 && (! isset($boardID) || empty($boardID) || empty($boardData))) : ?>
         <div class="mt-2 text-nowrap">
             文章分類：
             <select class="form-control category" id="boardID" name="boardID">
@@ -153,7 +153,7 @@ function saveDraft() {
         <div class="mt-2 text-nowrap">
             <div class="form-group">
                 <label for="title" class="col-form-label">　　主題：</label>
-                <input type="text" class="form-control" id="title" name="title" value="<?=(isset($title)) ? $title : ''?>" <?php if ($topicData['reply'] == 1) echo 'readonly="readonly"'; ?> />
+                <input type="text" class="form-control" id="title" name="title" value="<?=(isset($title)) ? $title : ''?>" <?php if (isset($topicData) &&  $topicData['reply'] == 1) echo 'readonly="readonly"'; ?> />
             </div>
         </div>
 

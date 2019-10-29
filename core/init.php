@@ -19,7 +19,9 @@ try {
     exit();
 }
 
-function __autoload($className) {
+spl_autoload_register('autoload'); 
+
+function autoload($className) {
     include(dirname(__FILE__).'/../models/'.$className.'.php');
 }
 

@@ -103,6 +103,10 @@ class Node_Container_Document extends Node_Container
 				else
 					$uri = 'http://www.youtube.com/embed/' . $content;
 
+				if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443) {
+					$uri = str_replace('http://', 'https://', $uri);
+				}
+
 				return '<iframe width="560" height="315" src="' . $uri . '" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
 			}, BBCode::BLOCK_TAG, false, array(), array('text_node'), BBCode::AUTO_DETECT_EXCLUDE_ALL),
 			new BBCode('vimeo', function($content, $attribs)

@@ -131,6 +131,8 @@ class c_post
 			} while(file_exists($path.$filename));
 
 			if (move_uploaded_file($uploader['tmp_name'], $path.$filename)) {
+				COMMON::imageResize($path.$filename, 900, NULL);
+
 				$res['result'] = 'success';
 				$res['msg']    = '';
 				$res['image']  = $url.$filename;

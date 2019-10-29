@@ -192,82 +192,7 @@ function saveDraft() {
         if ($totalPages == 0)
             $totalPages = 1;
         ?>
-        <div class="col-md-9">
-            <nav aria-label="Page navigation">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <?php if ($replies['page'] > 1) : ?>
-                        <a class="page-link" href="<?=$navLink?><?=$replies['page'] - 1?>"><i class="fas fa-caret-left"></i> &nbsp; 上一頁</a>
-                        <?php else : ?>
-                        <a class="page-link"><i class="fas fa-caret-left"></i> &nbsp; 上一頁</a>
-                        <?php endif; ?>
-                    </li>
-                    <?php 
-                    if ($replies['page'] <= 4) {
-                        $u = ($totalPages < 4) ? $totalPages : 4;
-
-                        for($i = 1; $i <= $u; $i++) {
-                            if ($replies['page'] == $i)
-                                $activeClass = 'active';
-                            else
-                                $activeClass = '';
-                                
-                            echo "<li class=\"page-item {$activeClass}\"><a class=\"page-link\" href=\"{$navLink}{$i}\">{$i}</a></li>";
-                        }
-
-                        if ($totalPages > $u + 1) {
-                            $u++;
-
-                            echo "<li class=\"page-item\"><a class=\"page-link\" href=\"{$navLink}{$u}\">{$u}</a></li>";
-                        }
-
-                        if ($totalPages > $u + 1) {
-                            $u++;
-
-                            echo "<li class=\"page-item\"><a class=\"page-link\" href=\"{$navLink}{$u}\">{$u}</a></li>";
-                        }
-
-                        $maxDisplayPage = $u;
-                    } else {
-                        if ($replies['page'] > 4)
-                            echo "<li class=\"page-item\"><a class=\"page-link\" href=\"{$navLink}1\">1 ...</a></li>";
-
-                        for($i = $replies['page'] - 2; $i < $replies['page']; $i++) {
-                            if ($replies['page'] == $i)
-                                $activeClass = 'active';
-                            else
-                                $activeClass = '';
-                                
-                            echo "<li class=\"page-item {$activeClass}\"><a class=\"page-link\" href=\"{$navLink}{$i}\">{$i}</a></li>";
-                        }
-
-                        $u = ($totalPages < $replies['page'] + 2) ? $totalPages : $replies['page'] + 2;
-
-                        for($i = $replies['page']; $i <= $u; $i++) {
-                            if ($replies['page'] == $i)
-                                $activeClass = 'active';
-                            else
-                                $activeClass = '';
-                                
-                            echo "<li class=\"page-item {$activeClass}\"><a class=\"page-link\" href=\"{$navLink}{$i}\">{$i}</a></li>";
-                        }
-
-                        $maxDisplayPage = $u;
-                    }
-
-                    if ($totalPages > $maxDisplayPage)
-                        echo "<li class=\"page-item\"><a class=\"page-link\" href=\"{$navLink}{$totalPages}\">... {$totalPages}</a></li>";
-                    ?>
-                    <li class="page-item"><a class="page-jump"><input type="text" class="page_input" name="page" value="<?=$replies['page']?>" /> / <?=$totalPages?> 頁</a></li>
-                    <?php if ($totalPages >= $replies['page'] + 1) : ?>
-                    <li class="page-item"><a class="page-link" href="<?=$navLink?><?=$replies['page'] + 1?>">下一頁 &nbsp; <i class="fas fa-caret-right"></i></a></li>
-                    <?php else : ?>
-                    <li class="page-item"><a class="page-link">下一頁 &nbsp; <i class="fas fa-caret-right"></i></a></li>
-                    <?php endif; ?>
-                    <li class="page-item"><a class="page-link" href="<?=BASEPATH?>/board/c<?=$categoryID?>/b<?=$boardID?>"><i class="fas fa-caret-left"></i> &nbsp; 返回列表</a></li>
-                </ul>
-            </nav>
-        </div>
+        <div class="col-md-9"></div>
     </div>
 
     <?php if ($memberIdentity > 1) : ?>
@@ -667,6 +592,75 @@ function saveDraft() {
             <div class="col-md-9">
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
+                        <li class="page-item">
+                            <?php if ($replies['page'] > 1) : ?>
+                            <a class="page-link" href="<?=$navLink?><?=$replies['page'] - 1?>"><i class="fas fa-caret-left"></i> &nbsp; 上一頁</a>
+                            <?php else : ?>
+                            <a class="page-link"><i class="fas fa-caret-left"></i> &nbsp; 上一頁</a>
+                            <?php endif; ?>
+                        </li>
+                        <?php 
+                        if ($replies['page'] <= 4) {
+                            $u = ($totalPages < 4) ? $totalPages : 4;
+
+                            for($i = 1; $i <= $u; $i++) {
+                                if ($replies['page'] == $i)
+                                    $activeClass = 'active';
+                                else
+                                    $activeClass = '';
+                                    
+                                echo "<li class=\"page-item {$activeClass}\"><a class=\"page-link\" href=\"{$navLink}{$i}\">{$i}</a></li>";
+                            }
+
+                            if ($totalPages > $u + 1) {
+                                $u++;
+
+                                echo "<li class=\"page-item\"><a class=\"page-link\" href=\"{$navLink}{$u}\">{$u}</a></li>";
+                            }
+
+                            if ($totalPages > $u + 1) {
+                                $u++;
+
+                                echo "<li class=\"page-item\"><a class=\"page-link\" href=\"{$navLink}{$u}\">{$u}</a></li>";
+                            }
+
+                            $maxDisplayPage = $u;
+                        } else {
+                            if ($replies['page'] > 4)
+                                echo "<li class=\"page-item\"><a class=\"page-link\" href=\"{$navLink}1\">1 ...</a></li>";
+
+                            for($i = $replies['page'] - 2; $i < $replies['page']; $i++) {
+                                if ($replies['page'] == $i)
+                                    $activeClass = 'active';
+                                else
+                                    $activeClass = '';
+                                    
+                                echo "<li class=\"page-item {$activeClass}\"><a class=\"page-link\" href=\"{$navLink}{$i}\">{$i}</a></li>";
+                            }
+
+                            $u = ($totalPages < $replies['page'] + 2) ? $totalPages : $replies['page'] + 2;
+
+                            for($i = $replies['page']; $i <= $u; $i++) {
+                                if ($replies['page'] == $i)
+                                    $activeClass = 'active';
+                                else
+                                    $activeClass = '';
+                                    
+                                echo "<li class=\"page-item {$activeClass}\"><a class=\"page-link\" href=\"{$navLink}{$i}\">{$i}</a></li>";
+                            }
+
+                            $maxDisplayPage = $u;
+                        }
+
+                        if ($totalPages > $maxDisplayPage)
+                            echo "<li class=\"page-item\"><a class=\"page-link\" href=\"{$navLink}{$totalPages}\">... {$totalPages}</a></li>";
+                        ?>
+                        <li class="page-item"><a class="page-jump"><input type="text" class="page_input" name="page" value="<?=$replies['page']?>" /> / <?=$totalPages?> 頁</a></li>
+                        <?php if ($totalPages >= $replies['page'] + 1) : ?>
+                        <li class="page-item"><a class="page-link" href="<?=$navLink?><?=$replies['page'] + 1?>">下一頁 &nbsp; <i class="fas fa-caret-right"></i></a></li>
+                        <?php else : ?>
+                        <li class="page-item"><a class="page-link">下一頁 &nbsp; <i class="fas fa-caret-right"></i></a></li>
+                        <?php endif; ?>
                         <li class="page-item"><a class="page-link" href="<?=BASEPATH?>/board/c<?=$categoryID?>/b<?=$boardID?>"><i class="fas fa-caret-left"></i> &nbsp; 返回列表</a></li>
                     </ul>
                 </nav>

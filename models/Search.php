@@ -24,12 +24,20 @@ class Search {
             AND `nsf_category`.`status` = 1
             AND `nsf_topic`.`del` = 0
             AND `nsf_topic`.`reply` = 0
-            AND MATCH (`nsf_topic`.`searchTitle`, `nsf_topic`.`searchContent`) AGAINST (:searchstr)
+            AND 
+                (
+                    `nsf_topic`.`title` LIKE :likeTitle
+                    OR
+                    MATCH (`nsf_topic`.`searchTitle`, `nsf_topic`.`searchContent`) AGAINST (:searchstr)
+                )
             ORDER BY `nsf_topic`.`lastUpdateTime` DESC, `nsf_topic`.`topicID` DESC 
             LIMIT {$pageStart}, {$per}";
 
         $query = $db->prepare($sql);
-        $query->execute(array('searchstr' => $searchstr));
+        $query->execute(array(
+            'likeTitle' => '%'.$searchstr.'%',
+            'searchstr' => $searchstr
+        ));
 
         $result['list'] = $query->fetchAll(PDO::FETCH_ASSOC);
 
