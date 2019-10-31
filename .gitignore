@@ -1,1 +1,4 @@
 /core/config.php
+/upload/attachment/*
+/upload/avatar/*
+/upload/banner/*

@@ -75,7 +75,7 @@ class c_member
 		} while(file_exists('upload/avatar/'.$filename.$ext));
 
 		if (move_uploaded_file($_FILES['pic']['tmp_name'], 'upload/avatar/'.$filename.'.'.$ext)) {
-			COMMON::imageResize('upload/avatar/'.$filename.'.'.$ext, 150, 150);
+			Common::imageResize('upload/avatar/'.$filename.'.'.$ext, 150, 150);
 			$avatarFilename = $filename.'.'.$ext;
 			Member::updateAvatar($avatarFilename);
 
